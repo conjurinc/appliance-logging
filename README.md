@@ -22,7 +22,7 @@ Or install it yourself as:
 
 Requiring the gem is all you need to do for Rails applications.
 
-For Sinatra, include the module `Conjur::Appliance::Logging::Sinatra`.
+For Sinatra, `extend` the module `Conjur::Appliance::Logging::Sinatra`.
 
 ## Development
 
