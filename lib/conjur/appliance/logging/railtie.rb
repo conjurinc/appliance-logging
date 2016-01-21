@@ -6,7 +6,16 @@ module Conjur
           if Rails.env.to_sym == :appliance
             # Log to STDOUT at WARN level in the appliance
             app.config.log_level = :warn
-            app.config.logger = Logger.new(STDOUT)
+            
+            major = Rails.version.split('.').first.to_i
+            app.config.logger = case major
+            when 3
+              Logger.new(STDOUT)
+            when 4
+              ActiveSupport::Logger.new(STDOUT)
+            else
+              raise "Unsupported Rails version : #{major}"
+            end
           end
         end
       end
