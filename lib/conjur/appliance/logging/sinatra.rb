@@ -6,7 +6,7 @@ module Conjur
           cls.module_eval do
             set :dump_errors, true
 
-            configure do
+            configure :appliance do
               # don't use Sinatra's builtin logging
               disable :logging
 
