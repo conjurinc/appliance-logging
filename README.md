@@ -10,10 +10,10 @@ daemon which also forwards all messages to `docker logs`.
 1. All Conjur services log to stdout.
 1. Service logging should not be verbose, to avoid emitting sensitive information into the log. The primary source of 
 service logging is the `nginx` web server log, which also goes to syslog.
+1. All Conjur services should honor the `LOG_LEVEL` environment variable and set logging verbosity based on it.
 1. Exception stack traces which occur in services *should* be emitted to syslog.
-1. Internal messages between services are not logged, unless they go through Nginx.
 
-Design elements (1) and (2) are implemented by the container itself. Elements (3) through (5) are the responsibility of the
+Design elements (1) and (2) are implemented by the container itself. Elements (3) through (6) are the responsibility of the
 services themselves. The purpose of this Ruby gem is to implement the necessary configuration in a uniform way.
 
 Sinatra and Rails are the frameworks supported directly by this gem. 
@@ -22,7 +22,7 @@ Sinatra and Rails are the frameworks supported directly by this gem.
 
 In a Rails application, `require "conjur-appliance-logging"` triggers a [Railtie](/conjurinc/appliance-logging/blob/master/lib/conjur/appliance/logging/railtie.rb) which does the following, *only if Rails.env is "appliance"*:
 
-* Sets `log_level` to `:warn`
+* Sets `log_level` based on `ENV['LOG_LEVEL']`
 * For Rails 3, sets the application logger to `Logger.new(STDOUT)`
 * For Rails 4, sets the application logger to `ActiveSupport::Logger.new(STDOUT)`
 
@@ -32,8 +32,10 @@ In a Sinatra application, first `require "conjur-appliance-logging"`and then ext
 
 The extended module does the following:
 
-* Enables `logging` for all environments except for "appliance"
+* Enables `logging` for all environments
 * Enables `dump_errors` for all environments
+* For "appliance" environment, sets application logger to `Logger.new(STDOUT)`
+* Sets `log_level` based on `ENV['LOG_LEVEL']`
 
 ## Installation
 
