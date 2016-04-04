@@ -16,7 +16,7 @@ module Conjur
 
               # do use a logger that writes to stdout
               logger = ::Logger.new(STDOUT)
-              logger.level = Logging::SINATRA_LOG_LEVEL
+              logger.level = Logging::LOG_LEVEL
               use Rack::CommonLogger, logger
             end
           end

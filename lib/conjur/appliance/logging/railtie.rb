@@ -6,7 +6,6 @@ module Conjur
         # initialized the logger.
         initializer "conjur.appliance.logging.initializer", :before => :initialize_logger do |app|
           if Rails.env.to_sym == :appliance
-            # Log to STDOUT at WARN level in the appliance
             app.config.log_level = Logging::RAILS_LOG_LEVEL
             
             major = Rails.version.split('.').first.to_i
@@ -18,6 +17,7 @@ module Conjur
             else
               raise "Unsupported Rails version : #{major}"
             end
+            app.config.logger.level = Logging::LOG_LEVEL
           end
         end
       end
