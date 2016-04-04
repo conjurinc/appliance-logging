@@ -1,3 +1,4 @@
+require 'logger'
 require "conjur/appliance/logging/version"
 
 module Conjur
