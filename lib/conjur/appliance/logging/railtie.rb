@@ -7,7 +7,7 @@ module Conjur
         initializer "conjur.appliance.logging.initializer", :before => :initialize_logger do |app|
           if Rails.env.to_sym == :appliance
             # Log to STDOUT at WARN level in the appliance
-            app.config.log_level = Logging::rails_log_level
+            app.config.log_level = Logging::RAILS_LOG_LEVEL
             
             major = Rails.version.split('.').first.to_i
             app.config.logger = case major
