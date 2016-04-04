@@ -2,10 +2,12 @@ module Conjur
   module Appliance
     module Logging
       class Railtie < Rails::Railtie
-        initializer "conjur.appliance.logging.initializer" do |app|
+        # This initializer needs to run before anybody else has
+        # initialized the logger.
+        initializer "conjur.appliance.logging.initializer", :before => :initialize_logger do |app|
           if Rails.env.to_sym == :appliance
             # Log to STDOUT at WARN level in the appliance
-            app.config.log_level = :warn
+            app.config.log_level = Logging::rails_log_level
             
             major = Rails.version.split('.').first.to_i
             app.config.logger = case major
