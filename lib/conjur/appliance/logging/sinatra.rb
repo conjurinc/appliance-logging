@@ -4,7 +4,11 @@ module Conjur
       module Sinatra
         def self.extended cls
           cls.module_eval do
-            set :dump_errors, true
+
+            configure do
+              enable :logging
+              set :dump_errors, true
+            end
 
             configure :appliance do
               # don't use Sinatra's builtin logging
