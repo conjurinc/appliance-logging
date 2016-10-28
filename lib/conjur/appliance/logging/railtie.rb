@@ -24,14 +24,11 @@ module Conjur
             app.config.log_level = Logging::RAILS_LOG_LEVEL
             
             major = Rails.version.split('.').first.to_i
-            app.config.logger = case major
-            when 3
-              Logger.new(STDOUT)
-            when 4
-              ActiveSupport::Logger.new(STDOUT)
-            else
-              raise "Unsupported Rails version : #{major}"
-            end
+            app.config.logger = if major < 4
+                                  Logger.new(STDOUT)
+                                else
+                                  ActiveSupport::Logger.new(STDOUT)
+                                end
             app.config.logger.level = Logging::LOG_LEVEL
           end
         end

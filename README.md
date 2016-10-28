@@ -23,8 +23,8 @@ Sinatra and Rails are the frameworks supported directly by this gem.
 In a Rails application, `require "conjur-appliance-logging"` triggers a [Railtie](/conjurinc/appliance-logging/blob/master/lib/conjur/appliance/logging/railtie.rb) which does the following, *only if Rails.env is "appliance"*:
 
 * Sets `log_level` based on `ENV['LOG_LEVEL']`
-* For Rails 3, sets the application logger to `Logger.new(STDOUT)`
-* For Rails 4, sets the application logger to `ActiveSupport::Logger.new(STDOUT)`
+* For Rails version before 4, sets the application logger to `Logger.new(STDOUT)`
+* For Rails versions 4 and above, sets the application logger to `ActiveSupport::Logger.new(STDOUT)`
 
 ### Sinatra
 
